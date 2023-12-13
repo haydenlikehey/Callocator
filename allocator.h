@@ -9,10 +9,6 @@ enum Type {
   SHORT,
   SINT,
   UINT,
-  S32,
-  U32,
-  S64,
-  U64,
   SLLONG,
   ULLONG,
   FLOAT,
@@ -24,7 +20,22 @@ enum Type {
 
 //Think about putting the union for the proposed idea in the other file here
 
+union allocateReturn {
+  short* shortptr;
+  unsigned int* uintptr;
+  signed int* sintptr;
+  signed long long* sllptr;
+  unsigned long long* ullptr;
+  float* fptr;
+  double* dptr;
+  char* cptr;
+  bool* bptr;
+  char ehandle;
+};
+
+
+
 //Pass size using sizeof operator
 //Is it overengineered for still returning a void*? Maybe. But this way hopefully it will not
 //be abused and will be implementation independent.
-void* allocateDebug(enum Type t, int size);
+union allocateReturn allocateDebug(enum Type t, int size);
