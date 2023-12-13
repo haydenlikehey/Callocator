@@ -22,6 +22,8 @@ enum Type {
   FAIL
 };
 
+//Think about putting the union for the proposed idea in the other file here
+
 //Pass size using sizeof operator
 //Is it overengineered for still returning a void*? Maybe. But this way hopefully it will not
 //be abused and will be implementation independent.
