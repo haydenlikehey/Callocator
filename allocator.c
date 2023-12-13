@@ -6,6 +6,7 @@ void* allocateDebug(enum Type t, int size) {
       puts("Nahhhh, mate, that's too much mem. Allocation failed\n");
       t = FAIL;
   }
+//Let's think about returning a union of the specific pointer type instead of void*
 
 switch (t) {
   case SHORT:
