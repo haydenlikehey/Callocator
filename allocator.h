@@ -34,8 +34,6 @@ union allocateReturn {
 };
 
 
-
-//Pass size using sizeof operator
 //Is it overengineered for still returning a void*? Maybe. But this way hopefully it will not
 //be abused and will be implementation independent.
 union allocateReturn allocateDebug(enum Type t, int size);
