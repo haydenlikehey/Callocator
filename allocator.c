@@ -54,4 +54,6 @@ switch (t) {
     break;
   }
 
+  return NULL;
+
 }
