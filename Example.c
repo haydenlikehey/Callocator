@@ -7,6 +7,7 @@ int main(void) {
   union allocateReturn intpointer = allocateDebug(UINT, 8);
   
   //This works. Just a convoluted way to access memory though. Not sure if it's useful.
+  //If you're doing wacky stuff like the Quake fast inverse square root 
   *intpointer.uintptr = 10;
   *(intpointer.uintptr + 2) = 999;
   intpointer.uintptr[4] = 334;
