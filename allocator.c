@@ -1,4 +1,6 @@
 #include "allocator.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 union allocateReturn allocateDebug(enum Type t, int size) {
 

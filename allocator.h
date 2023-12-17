@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
 
 //Idk what the biggest reasonable amount of memory to allocate is
