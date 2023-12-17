@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define MAX_ALLOC 1000000
+//Idk what the biggest reasonable amount of memory to allocate is
+//So here's a MB for your troubles. Configure as you see fit.
+#define MAX_ALLOC 1048576
 
 
 enum Type {
