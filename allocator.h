@@ -13,13 +13,13 @@ enum Type {
   ULLONG,
   FLOAT,
   DOUBLE,
-  CHAR,
+  STRING,
   BOOL,
   FAIL,
   FREE
 };
 
-union allocateReturn {
+union allocated {
   short* shortptr;
   unsigned int* uintptr;
   signed int* sintptr;
@@ -27,19 +27,18 @@ union allocateReturn {
   unsigned long long* ullptr;
   float* fptr;
   double* dptr;
-  char* cptr;
+  char* string;
   bool* bptr;
   char ehandle;
 };
 
 struct memory {
   unsigned long long size;
-  enum Type type; //does this need to be here?
-  union allocated;
+  union allocated type;
 };
 
 
 //Is it overengineered for still returning a void*? Maybe. But this way hopefully it will not
 //be abused and will be implementation independent.
-union allocateReturn allocatorDebug(enum Type t, int size);
-struct memory allocatorStruct(struct memory m);
+union allocated allocatorDebug(enum Type t, int size);
+struct memory* allocatorStruct(enum Type t, struct memory* m);
