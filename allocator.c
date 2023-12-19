@@ -70,64 +70,70 @@ switch (t) {
 
 }
 
-struct memory* allocatorStruct(enum Type t, struct memory* m) {
+struct memory* allocatorStruct(enum Type t, unsigned long long elements) {
 
-  if (m->size > MAX_ALLOC) {
+  struct memory* m;
+  m->size = elements;
+
+  //create a new function that returns size based on Type
+  //We can use that to make a hard MB limit or whatever
+  if (byteSize(t, elements) > MAX_ALLOC) {
       puts("Nahhhh, mate, that's too much mem. Allocation failed\n");
       t = FAIL;
   }
 
+//
+//Next step: Make an initiator so junk data isn't made.
+//
 switch (t) {
   case SHORT:
-    printf("Allocated %llu bytes.\n", m->size * sizeof(short));
-    m->type.shortptr = malloc(m->size * sizeof(short));
+    printf("Allocated %llu bytes.\n", elements * sizeof(short));
+    m->type.shortptr = malloc(elements * sizeof(short));
     return m;
     break;
   case UINT:
-    printf("Allocated %llu bytes.\n", m->size * sizeof(unsigned int));
-    m->type.uintptr = malloc(m->size * sizeof(unsigned int));
+    printf("Allocated %llu bytes.\n", elements * sizeof(unsigned int));
+    m->type.uintptr = malloc(elements * sizeof(unsigned int));
     return m;
     break;
   case SINT:
-    printf("Allocated %llu bytes.\n", m->size * sizeof(signed int));
-    m->type.sintptr = malloc(m->size * sizeof(signed int));
+    printf("Allocated %llu bytes.\n", elements * sizeof(signed int));
+    m->type.sintptr = malloc(elements * sizeof(signed int));
     return m;
     break;
   case SLLONG:
-    printf("Allocated %llu bytes.\n", m->size * sizeof(signed long long));
-    m->type.sllptr = malloc(m->size * sizeof(signed long long));
+    printf("Allocated %llu bytes.\n", elements * sizeof(signed long long));
+    m->type.sllptr = malloc(elements * sizeof(signed long long));
     return m;
     break;
   case ULLONG:
-    printf("Allocated %llu bytes.\n", m->size * sizeof(unsigned long long));
-    m->type.ullptr = malloc(m->size * sizeof(unsigned long long));
+    printf("Allocated %llu bytes.\n", elements * sizeof(unsigned long long));
+    m->type.ullptr = malloc(elements * sizeof(unsigned long long));
     return m;
     break;
   case FLOAT:
-    printf("Allocated %llu bytes.\n", m->size * sizeof(float));
-    m->type.fptr = malloc(m->size * sizeof(float));
+    printf("Allocated %llu bytes.\n", elements * sizeof(float));
+    m->type.fptr = malloc(elements * sizeof(float));
     return m;
     break;
   case DOUBLE:
-    printf("Allocated %llu bytes.\n", m->size * sizeof(double));
-    m->type.dptr = malloc(m->size * sizeof(double));
+    printf("Allocated %llu bytes.\n", elements * sizeof(double));
+    m->type.dptr = malloc(elements * sizeof(double));
     return m;
     break;
   case STRING:
-    printf("Allocated %llu bytes.\n", m->size * sizeof(char));
-    m->type.string = malloc(m->size * sizeof(char));
+    printf("Allocated %llu bytes.\n", elements * sizeof(char));
+    m->type.string = malloc(elements * sizeof(char));
     return m;
     break;
   case BOOL:
-    printf("Allocated %llu bytes.\n", m->size * sizeof(bool));
-    m->type.bptr = malloc(m->size * sizeof(bool));
+    printf("Allocated %llu bytes.\n", elements * sizeof(bool));
+    m->type.bptr = malloc(elements * sizeof(bool));
     return m;
   case FAIL:
     exit(8254); //I feel like a hard exit is a little harsh... but it is C!
     return m;
     break;
-  case FREE:
-
   default:
     puts("You tried to allocate a type that doesn't exist\n");
     m->type.ehandle = 'F';
@@ -140,3 +146,4 @@ switch (t) {
   
 
 }
+

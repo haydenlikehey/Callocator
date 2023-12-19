@@ -41,4 +41,4 @@ struct memory {
 //Is it overengineered for still returning a void*? Maybe. But this way hopefully it will not
 //be abused and will be implementation independent.
 union allocated allocatorDebug(enum Type t, int size);
-struct memory* allocatorStruct(enum Type t, struct memory* m);
+struct memory* allocatorStruct(enum Type t, unsigned long long elements);

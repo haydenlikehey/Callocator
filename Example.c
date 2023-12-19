@@ -10,8 +10,23 @@ Need to think about extending this to a struct that tracks how much memory
 is allocated. I think that might be a little useful, but I think I've got
 interpretive brain from too much R
 */
-  union allocateReturn intpointer = allocatorDebug(UINT, 8);
-  unsigned int* trial = intpointer.uintptr;
+  union allocated intpointer = allocatorDebug(UINT, 8);
+  unsigned int* trial = intpointer.uintptr; //I feel like you shouldn't do this
+
+
+
+  struct memory* structOne;
+  (*structOne).size = 10; //Dereference the classic way
+  structOne = allocatorStruct(SINT, (*structOne).size); //Leads to this mess
+
+
+  struct memory* structTwo;
+  structTwo->size = 20; //Or do it the new fancy ANSI C ISO C 90 way!
+  structTwo = allocatorStruct(SINT, structTwo->size);
+
+  struct memory* structThree = allocatorStruct(SINT, 30); //Or do it this way and smile
+
+  
   
   //This works. Just a convoluted way to access memory though. Not sure if it's
   //useful.
@@ -20,6 +35,9 @@ interpretive brain from too much R
   *(intpointer.uintptr + 2) = 999;
   intpointer.uintptr[4] = 334;
   intpointer.uintptr[7] = 90;
+
+  //Wow, this works too! Wow!
+  *(trial + 5) = 9000;
 
   //This prints junk data for the memory not initiated. Be cautious
   //Might be an initializer too.
