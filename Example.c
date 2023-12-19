@@ -13,12 +13,13 @@ interpretive brain from too much R
   union allocated intpointer = allocatorDebug(UINT, 8);
   unsigned int* trial = intpointer.uintptr; //I feel like you shouldn't do this
 
-
+  puts("first one works\n");
 
   struct memory* structOne;
   (*structOne).size = 10; //Dereference the classic way
   structOne = allocatorStruct(SINT, (*structOne).size); //Leads to this mess
 
+  puts("second one works\n");
 
   struct memory* structTwo;
   structTwo->size = 20; //Or do it the new fancy ANSI C ISO C 90 way!
@@ -26,7 +27,7 @@ interpretive brain from too much R
 
   struct memory* structThree = allocatorStruct(SINT, 30); //Or do it this way and smile
 
-  
+  puts("third one works\n");
   
   //This works. Just a convoluted way to access memory though. Not sure if it's
   //useful.
