@@ -46,6 +46,9 @@ interpretive brain from too much R
   }
 
   //Be a good C citizen!
-  free(trial); //I don't think this should work...
+  free(trial);
+  free(structOne);
+  free(structTwo);
+  free(structThree);
 
 }
