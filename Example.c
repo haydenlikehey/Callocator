@@ -10,7 +10,8 @@ Need to think about extending this to a struct that tracks how much memory
 is allocated. I think that might be a little useful, but I think I've got
 interpretive brain from too much R
 */
-  union allocateReturn intpointer = allocateDebug(UINT, 8);
+  union allocateReturn intpointer = allocatorDebug(UINT, 8);
+  unsigned int* trial = intpointer.uintptr;
   
   //This works. Just a convoluted way to access memory though. Not sure if it's
   //useful.
@@ -27,6 +28,6 @@ interpretive brain from too much R
   }
 
   //Be a good C citizen!
-  free(intpointer.uintptr);
+  free(trial); //I don't think this should work...
 
 }

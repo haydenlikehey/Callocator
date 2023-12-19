@@ -15,10 +15,9 @@ enum Type {
   DOUBLE,
   CHAR,
   BOOL,
-  FAIL
+  FAIL,
+  FREE
 };
-
-//Think about putting the union for the proposed idea in the other file here
 
 union allocateReturn {
   short* shortptr;
@@ -33,7 +32,14 @@ union allocateReturn {
   char ehandle;
 };
 
+struct memory {
+  unsigned long long size;
+  enum Type type; //does this need to be here?
+  union allocated;
+};
+
 
 //Is it overengineered for still returning a void*? Maybe. But this way hopefully it will not
 //be abused and will be implementation independent.
-union allocateReturn allocateDebug(enum Type t, int size);
+union allocateReturn allocatorDebug(enum Type t, int size);
+struct memory allocatorStruct(struct memory m);
