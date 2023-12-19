@@ -75,8 +75,6 @@ struct memory* allocatorStruct(enum Type t, unsigned long long elements) {
   struct memory* m;
   m->size = elements;
 
-  //create a new function that returns size based on Type
-  //We can use that to make a hard MB limit or whatever
   if (byteSize(t, elements) > MAX_ALLOC) {
       puts("Nahhhh, mate, that's too much mem. Allocation failed\n");
       t = FAIL;
