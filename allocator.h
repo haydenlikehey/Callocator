@@ -42,3 +42,4 @@ struct memory {
 //be abused and will be implementation independent.
 union allocated allocatorDebug(enum Type t, int size);
 struct memory* allocatorStruct(enum Type t, unsigned long long elements);
+unsigned long long byteSize(enum Type t, unsigned long long elements);

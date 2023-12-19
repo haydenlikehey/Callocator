@@ -147,3 +147,39 @@ switch (t) {
 
 }
 
+unsigned long long byteSize(enum Type t, unsigned long long elements) {
+
+  switch (t) {
+    case SHORT:
+      return elements * sizeof(short);
+      break;
+    case UINT:
+      return elements * sizeof(unsigned int);
+      break;
+    case SINT:
+      return elements * sizeof(signed int);
+      break;
+    case SLLONG:
+      return elements * sizeof(signed long long);
+      break;
+    case ULLONG:
+      return elements * sizeof(unsigned long long);
+      break;
+    case FLOAT:
+      return elements * sizeof(float);
+      break;
+    case DOUBLE:
+      return elements * sizeof(double);
+      break;
+    case STRING:
+      return elements * sizeof(char);
+      break;
+    case BOOL:
+      return elements * sizeof(bool);
+      break;
+    default:
+      exit(8254);
+      break;
+    }
+
+}
