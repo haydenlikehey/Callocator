@@ -20,6 +20,12 @@ The function allocatorUnion returns the type union allocated and accepts the par
 
 ### Structure Implementation
 
+#### Allocation
+
 For convenience and an attempt at safety, the structure "memory" contains an unsigned long long called "size" and a union allocated called "type".
 
 The function allocatorStruct accepts the same parameters as allocator union: an enum Type and an unsigned long long value and begins with a size check. However, this function returns a struct memory pointer and you should set a struct memory pointer to be assigned the output of the function. The function first creates a struct memory pointer to return and allocates memory for it. Next, size is allocated and set to the number of elements in the heap. Following this memory is allocated for the data type requested, assigned to the pointer within union allocated that is within struct memory, then returned.
+
+#### Deallocation
+
+Call freememory with parameters struct memory pointer and enum Type.
