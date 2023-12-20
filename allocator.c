@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-union allocated allocatorDebug(enum Type t, int size) {
+union allocated allocatorUnion(enum Type t, unsigned long long size) {
 
   if (size > MAX_ALLOC) {
       puts("Nahhhh, mate, that's too much mem. Allocation failed\n");
@@ -72,7 +72,7 @@ switch (t) {
 
 struct memory* allocatorStruct(enum Type t, unsigned long long elements) {
 
-  struct memory* m;
+  struct memory* m = malloc(sizeof(struct memory));
   m->size = elements;
 
   if (byteSize(t, elements) > MAX_ALLOC) {
@@ -134,6 +134,7 @@ switch (t) {
     break;
   default:
     puts("You tried to allocate a type that doesn't exist\n");
+
     m->type.ehandle = 'F';
     return m;
     break;
@@ -141,7 +142,49 @@ switch (t) {
 
   m->type.ehandle = 'L'; //Third error handle... It's bullet proof but it could use another
   return m;             //function just be safe lol
-  
+
+}
+
+void freememory(struct memory* toBeFreed, enum Type t) {
+
+  switch (t) {
+    case SHORT:
+      free(toBeFreed->type.shortptr);
+      break;
+    case UINT:
+      free(toBeFreed->type.uintptr);
+      break;
+    case SINT:
+      free(toBeFreed->type.sintptr);
+      break;
+    case SLLONG:
+      free(toBeFreed->type.sllptr);
+      break;
+    case ULLONG:
+      free(toBeFreed->type.ullptr);
+      break;
+    case FLOAT:
+      free(toBeFreed->type.fptr);
+      break;
+    case DOUBLE:
+      free(toBeFreed->type.dptr);
+      break;
+    case STRING:
+      free(toBeFreed->type.string);
+      break;
+    case BOOL:
+      free(toBeFreed->type.bptr);
+    case FAIL:
+      puts("Don't pass fails...\n");
+      exit(6); //You did it wrong
+      break;
+    default:
+      puts("Nothing to Free\n");
+      return;
+
+  }
+  free(toBeFreed);
+  return;
 
 }
 
