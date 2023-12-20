@@ -10,7 +10,7 @@ Need to think about extending this to a struct that tracks how much memory
 is allocated. I think that might be a little useful, but I think I've got
 interpretive brain from too much R
 */
-  union allocated intpointer = allocatorDebug(UINT, 8);
+  union allocated intpointer = allocatorUnion(UINT, 8);
   unsigned int* trial = intpointer.uintptr; //I feel like you shouldn't do this
 
   //struct memory* structOne;
@@ -40,11 +40,13 @@ interpretive brain from too much R
     printf("%i\n", intpointer.uintptr[i]);
   }
 
+  printf("struct 3 size: %llu\n", (*structThree).size);
+
   //Be a good C citizen!
   free(intpointer.uintptr);
   //free(structOne);
   //free(structTwo);
-  free(structThree);
+  freememory(structThree, SINT); //This doesn't free the submemory
 
   return 0;
 
