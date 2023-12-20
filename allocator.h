@@ -15,8 +15,7 @@ enum Type {
   DOUBLE,
   STRING,
   BOOL,
-  FAIL,
-  FREE
+  FAIL
 };
 
 union allocated {
