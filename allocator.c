@@ -134,7 +134,6 @@ switch (t) {
     break;
   default:
     puts("You tried to allocate a type that doesn't exist\n");
-
     m->type.ehandle = 'F';
     return m;
     break;
@@ -175,11 +174,13 @@ void freememory(struct memory* toBeFreed, enum Type t) {
     case BOOL:
       free(toBeFreed->type.bptr);
     case FAIL:
-      puts("Don't pass fails...\n");
-      exit(6); //You did it wrong
+      /*This is meant to allow passthrough for failed allocations returned by
+        allocatorStruct() or allocatorUnion()
+        Since ehandle has mem allocated for it as part of the union, it can be
+        freed with the structure.*/
       break;
     default:
-      puts("Nothing to Free\n");
+      puts("No type to Free\n");
       return;
 
   }
