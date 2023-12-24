@@ -60,7 +60,7 @@ switch (t) {
   case STRING:
     printf("Allocated %llu bytes.\n", size * sizeof(char));
     yunyun.string = malloc(size * sizeof(char));
-    memset(yunyun.string, ' ', (size * sizeof(char)) - 1); //Verify how dynamic strings work
+    memset(yunyun.string, '\0', (size * sizeof(char)) - 1); //Verify how dynamic strings work
     return yunyun;
     break;
   case BOOL:
@@ -140,7 +140,7 @@ switch (t) {
   case STRING:
     printf("Allocated %llu bytes.\n", elements * sizeof(char));
     m->type.string = malloc(elements * sizeof(char));
-    memset(m->type.string, 0, (elements * sizeof(char)));
+    memset(m->type.string, '\0', (elements * sizeof(char)));
     return m;
     break;
   case BOOL:
