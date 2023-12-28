@@ -81,7 +81,7 @@ switch (t) {
 
 }
 
-struct memory* allocatorStruct(enum Type t, unsigned long long elements) {
+struct memory* allocator(enum Type t, unsigned long long elements) {
 
   struct memory* m = malloc(sizeof(struct memory));
   m->size = elements;

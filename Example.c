@@ -21,7 +21,7 @@ interpretive brain from too much R
   //structTwo->size = 20; It doesn't work like this either
   //structTwo = allocatorStruct(SINT, structTwo->size);
 
-  struct memory* structThree = allocatorStruct(SINT, 30); //Or do it this way and smile
+  struct memory* structThree = allocator(SINT, 30); //Or do it this way and smile
   
   //This works. Just a convoluted way to access memory though. Not sure if it's
   //useful.

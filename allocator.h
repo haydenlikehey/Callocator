@@ -40,6 +40,6 @@ struct memory {
 //Is it overengineered for still returning a void*? Maybe. But this way hopefully it will not
 //be abused and will be implementation independent.
 union allocated allocatorUnion(enum Type t, unsigned long long size);
-struct memory* allocatorStruct(enum Type t, unsigned long long elements);
+struct memory* allocator(enum Type t, unsigned long long elements);
 unsigned long long byteSize(enum Type t, unsigned long long elements);
 void freememory(struct memory* toBeFreed, enum Type t);
