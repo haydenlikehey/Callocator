@@ -39,7 +39,7 @@ union allocated {
 };
 
 struct memory {
-  unsigned long long size;
+  uint64_t size;
   union allocated type;
 };
 
