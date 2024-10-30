@@ -4,21 +4,30 @@
 #include <stdlib.h>
 #include <string.h>
 
-union allocated allocatorUnion(enum MemType t, uint64_t size) {
+union allocated allocatorUnion(enum MemType declaredType, uint64_t size) {
 
   if (size > MAX_ALLOC) {
-      puts("Nahhhh, mate, that's too much mem. Allocation failed\n");
-      t = FAIL;
+      declaredType = FAIL;
   }
 //Let's think about returning a union of the specific yunyun type instead of void*
   union allocated yunyun;
   yunyun.uint16ptr = NULL;
+  int errorCount = 0;
 
-switch (t) {
+switch (declaredType) {
   case U16:
-    printf("Allocated %llu bytes.\n", size * sizeof(uint16_t));
-    yunyun.uint16ptr = malloc(size * sizeof(uint16_t));
+    do {
+      yunyun.uint16ptr = malloc(size * sizeof(uint16_t));
+      if (yunyun.uint16ptr == NULL) {
+        errorCount++;
+      }
+      if (errorCount > 2) {
+        puts("Memory allocation has failed too many times -- aborting.");
+        exit(12);
+      }
+    } while (yunyun.uint16ptr == NULL);
     memset(yunyun.uint16ptr, 0, (size * sizeof(uint16_t)));
+    printf("Allocated %llu bytes.\n", size * sizeof(uint16_t));
     return yunyun;
     break;
   case U32:
@@ -69,7 +78,9 @@ switch (t) {
     memset(yunyun.bptr, 0, (size * sizeof(bool)));
     return yunyun;
   case FAIL:
-    exit(8254);
+    puts("An attempt was made to allocate more memory than defined by the author...");
+    puts("An 'L' has been returned.");
+    yunyun.ehandle = 'L';
     return yunyun;
     break;
   default:
@@ -81,110 +92,110 @@ switch (t) {
 
 }
 
-struct memory* allocator(enum MemType t, uint64_t elements) {
+struct memory* allocator(enum MemType declaredType, uint64_t elements) {
 
-  struct memory* m = malloc(sizeof(struct memory));
-  m->size = elements;
+  struct memory* managedMemory = malloc(sizeof(struct memory));
+  managedMemory->size = elements;
 
-  if (byteSize(t, elements) > MAX_ALLOC) {
+  if (byteSize(declaredType, elements) > MAX_ALLOC) {
       puts("Nahhhh, mate, that's too much mem. Allocation failed\n");
-      t = FAIL;
+      declaredType = FAIL;
   }
 
 //
 //Next step: Make an initiator so junk data isn't made.
 //
-  switch (t) {
+  switch (declaredType) {
      case U8:
       printf("Allocated %llu bytes.\n", elements * sizeof(uint8_t));
-      m->type.uint8ptr = malloc(elements * sizeof(uint8_t));
-      memset(m->type.uint8ptr, 0, (elements * sizeof(uint8_t)));
-      return m;
+      managedMemory->type.uint8ptr = malloc(elements * sizeof(uint8_t));
+      memset(managedMemory->type.uint8ptr, 0, (elements * sizeof(uint8_t)));
+      return managedMemory;
       break;
     case S8:
       printf("Allocated %llu bytes.\n", elements * sizeof(int8_t));
-      m->type.sint8ptr = malloc(elements * sizeof(int8_t));
-      memset(m->type.sint8ptr, 0, (elements * sizeof(int8_t)));
-      return m;
+      managedMemory->type.sint8ptr = malloc(elements * sizeof(int8_t));
+      memset(managedMemory->type.sint8ptr, 0, (elements * sizeof(int8_t)));
+      return managedMemory;
       break;
     case S16:
       printf("Allocated %llu bytes.\n", elements * sizeof(int16_t));
-      m->type.sint16ptr = malloc(elements * sizeof(int16_t));
-      memset(m->type.sint16ptr, 0, (elements * sizeof(int16_t)));
-      return m;
+      managedMemory->type.sint16ptr = malloc(elements * sizeof(int16_t));
+      memset(managedMemory->type.sint16ptr, 0, (elements * sizeof(int16_t)));
+      return managedMemory;
       break;
     case U16:
       printf("Allocated %llu bytes.\n", elements * sizeof(uint16_t));
-      m->type.uint16ptr = malloc(elements * sizeof(uint16_t));
-      memset(m->type.uint16ptr, 0, (elements * sizeof(uint16_t)));
-      return m;
+      managedMemory->type.uint16ptr = malloc(elements * sizeof(uint16_t));
+      memset(managedMemory->type.uint16ptr, 0, (elements * sizeof(uint16_t)));
+      return managedMemory;
       break;
     case U32:
       printf("Allocated %llu bytes.\n", elements * sizeof(uint32_t));
-      m->type.uint32ptr = malloc(elements * sizeof(uint32_t));
-      memset(m->type.uint32ptr, 0, (elements * sizeof(uint32_t)));
-      return m;
+      managedMemory->type.uint32ptr = malloc(elements * sizeof(uint32_t));
+      memset(managedMemory->type.uint32ptr, 0, (elements * sizeof(uint32_t)));
+      return managedMemory;
       break;
     case S32:
       printf("Allocated %llu bytes.\n", elements * sizeof(int32_t));
-      m->type.sint32ptr = malloc(elements * sizeof(int32_t));
-      memset(m->type.sint32ptr, 0, (elements * sizeof(int32_t)));
-      return m;
+      managedMemory->type.sint32ptr = malloc(elements * sizeof(int32_t));
+      memset(managedMemory->type.sint32ptr, 0, (elements * sizeof(int32_t)));
+      return managedMemory;
       break;
     case S64:
       printf("Allocated %llu bytes.\n", elements * sizeof(int64_t));
-      m->type.sint64ptr = malloc(elements * sizeof(int64_t));
-      memset(m->type.sint64ptr, 0, (elements * sizeof(int64_t)));
-      return m;
+      managedMemory->type.sint64ptr = malloc(elements * sizeof(int64_t));
+      memset(managedMemory->type.sint64ptr, 0, (elements * sizeof(int64_t)));
+      return managedMemory;
       break;
     case U64:
       printf("Allocated %llu bytes.\n", elements * sizeof(uint64_t));
-      m->type.uint64ptr = malloc(elements * sizeof(uint64_t));
-      memset(m->type.uint64ptr, 0, (elements * sizeof(uint64_t)));
-      return m;
+      managedMemory->type.uint64ptr = malloc(elements * sizeof(uint64_t));
+      memset(managedMemory->type.uint64ptr, 0, (elements * sizeof(uint64_t)));
+      return managedMemory;
       break;
     case FLOAT:
       printf("Allocated %llu bytes.\n", elements * sizeof(float));
-      m->type.fptr = malloc(elements * sizeof(float));
-      memset(m->type.fptr, 0, (elements * sizeof(float)));
-      return m;
+      managedMemory->type.fptr = malloc(elements * sizeof(float));
+      memset(managedMemory->type.fptr, 0, (elements * sizeof(float)));
+      return managedMemory;
       break;
     case DOUBLE:
       printf("Allocated %llu bytes.\n", elements * sizeof(double));
-      m->type.dptr = malloc(elements * sizeof(double));
-      memset(m->type.dptr, 0, (elements * sizeof(double)));
-      return m;
+      managedMemory->type.dptr = malloc(elements * sizeof(double));
+      memset(managedMemory->type.dptr, 0, (elements * sizeof(double)));
+      return managedMemory;
       break;
     case STRING:
       printf("Allocated %llu bytes.\n", elements * sizeof(char));
-      m->type.string = malloc(elements * sizeof(char));
-      memset(m->type.string, '\0', (elements * sizeof(char)));
-      return m;
+      managedMemory->type.string = malloc(elements * sizeof(char));
+      memset(managedMemory->type.string, '\0', (elements * sizeof(char)));
+      return managedMemory;
       break;
     case BOOL:
       printf("Allocated %llu bytes.\n", elements * sizeof(bool));
-      m->type.bptr = malloc(elements * sizeof(bool));
-      memset(m->type.bptr, 0, (elements * sizeof(bool)));
-      return m;
+      managedMemory->type.bptr = malloc(elements * sizeof(bool));
+      memset(managedMemory->type.bptr, 0, (elements * sizeof(bool)));
+      return managedMemory;
     case FAIL:
       exit(8254); //I feel like a hard exit is a little harsh... but it is C!
-      return m;
+      return managedMemory;
       break;
     default:
       puts("You tried to allocate a type that doesn't exist\n");
-      m->type.ehandle = 'F';
-      return m;
+      managedMemory->type.ehandle = 'F';
+      return managedMemory;
       break;
   }
 
-  m->type.ehandle = 'L'; //Third error handle... It's buint64et proof but it could use another
-  return m;             //function just be safe lol
+  managedMemory->type.ehandle = 'L'; //Third error handle... It's buint64et proof but it could use another
+  return managedMemory;             //function just be safe lol
 
 }
 
-void freememory(struct memory* toBeFreed, enum MemType t) {
+void freememory(struct memory* toBeFreed, enum MemType declaredType) {
 
-  switch (t) {
+  switch (declaredType) {
     case U8:
       free(toBeFreed->type.uint8ptr);
       break;
@@ -236,9 +247,9 @@ void freememory(struct memory* toBeFreed, enum MemType t) {
 
 }
 
-uint64_t byteSize(enum MemType t, uint64_t elements) {
+uint64_t byteSize(enum MemType declaredType, uint64_t elements) {
 
-  switch (t) {
+  switch (declaredType) {
     case U8:
       return elements * sizeof(uint8_t);
       break;
